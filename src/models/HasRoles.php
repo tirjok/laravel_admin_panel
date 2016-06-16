@@ -1,6 +1,7 @@
 <?php
 
 namespace Greenelf\Panel;
+
 trait HasRoles
 {
 
@@ -39,7 +40,7 @@ trait HasRoles
             return $this->roles->contains('name', $role);
         }
 
-        return !! $role->intersect($this->roles)->count();
+        return !!$role->intersect($this->roles)->count();
     }
 
     /**
@@ -49,12 +50,11 @@ trait HasRoles
      * @return boolean
      */
     public function hasPermission($permission)
-    {   
+    {
         $permission = Permission::whereName($permission)->first();
-        if (is_null($permission)){
+        if (is_null($permission)) {
             return false;
         }
         return $this->hasRole($permission->roles);
     }
-
 }

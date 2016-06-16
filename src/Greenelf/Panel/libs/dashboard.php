@@ -1,6 +1,8 @@
 <?php
+
 namespace Greenelf\Panel\libs;
 
+use Greenelf\Panel\Link;
 
 class dashboard
 {
@@ -11,7 +13,7 @@ class dashboard
 
     public static function getItems()
     {
-        if(!self::$dashboardItems) {
+        if (!self::$dashboardItems) {
             self::$dashboardItems = self::create();
         }
 
@@ -20,9 +22,9 @@ class dashboard
 
     public static function create()
     {
-        self::$urls = \Config::get('panel.panelControllers');
+        self::$urls = config('panel.panelControllers');
 
-        $config    = \Greenelf\Panel\Link::allCached();
+        $config = Link::allCached();
         $dashboard = array();
 
         $appHelper = new AppHelper();
@@ -30,24 +32,23 @@ class dashboard
         // Make Dashboard Items
         foreach ($config as $value) {
 
-    	    $modelName = $value['url'];
+            $modelName = $value['url'];
 
-            if ( in_array($modelName, self::$urls)) {
-               $model = "Greenelf\\Panel\\".$modelName;
+            if (in_array($modelName, self::$urls)) {
+                $model = "Greenelf\\Panel\\" . $modelName;
             } else {
-               $model = $appHelper->getNameSpace() . $modelName;
+                $model = $appHelper->getNameSpace() . $modelName;
             }
 
-            //if (class_exists($value)) {
             $dashboard[] = array(
                 'modelName' => $modelName,
-                'title'	  => $value['display'],
-                'count'	  => $model::count(),
+                'title' => $value['display'],
+                'count' => $model::count(),
                 'showListUrl' => 'panel/' . $modelName . '/all',
-                'addUrl'	  => 'panel/' . $modelName . '/edit',
+                'addUrl' => 'panel/' . $modelName . '/edit',
             );
         }
 
-	   return $dashboard;
+        return $dashboard;
     }
 }

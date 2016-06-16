@@ -11,17 +11,18 @@ class Permission extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
-    
+
     protected $fillable = array('name', 'label');
 
     public function roles()
     {
-    	return $this->belongsToMany(Role::class);
+        return $this->belongsToMany(Role::class);
     }
 
-    public function getAndSave($url, $label){
-    	$this->name = $name;
-    	$this->label = $label;
-    	$this->save();
+    public function getAndSave($name, $label)
+    {
+        $this->name = $name;
+        $this->label = $label;
+        $this->save();
     }
 }
